@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management System</title>
+<style>
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(135deg,#d7e8ff,#f6fbff);
+}
+.box{
+    width:850px;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 0 15px rgba(0,0,0,0.2);
+}
+h1{
+    text-align:center;
+    color:#1b4f72;
+}
+label{
+    font-weight:bold;
+}
+input{
+    width:96%;
+    padding:10px;
+    margin:8px 0 15px;
+    border:1px solid gray;
+    border-radius:5px;
+}
+button{
+    padding:10px 18px;
+    margin:5px;
+    border:none;
+    border-radius:5px;
+    background:#2874a6;
+    color:white;
+    cursor:pointer;
+}
+button:hover{
+    background:#1b4f72;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+table,th,td{
+    border:1px solid black;
+}
+th{
+    background:#2874a6;
+    color:white;
+}
+th,td{
+    padding:10px;
+    text-align:center;
+}
+#count{
+    font-weight:bold;
+    color:green;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+
+<h1>Student Management System</h1>
+
+<label>Student Name</label>
+<input type="text" id="studentName" placeholder="Enter Student Name">
+
+<label>Marks</label>
+<input type="number" id="studentMarks" placeholder="Enter Marks">
+
+<button onclick="addStudent()">Add Student</button>
+
+<hr>
+
+<label>Search Student</label>
+<input type="text" id="searchName" placeholder="Enter Student Name">
+
+<button onclick="searchStudent()">Search</button>
+
+<h3 id="count">Total Students : 0</h3>
+
+<table>
+<tr>
+<th>Name</th>
+<th>Marks</th>
+<th>Grade</th>
+<th>Result</th>
+</tr>
+<tbody id="tableData">
+
+</tbody>
+</table>
+
+<p id="message"></p>
+
+</div>
+
+<script>
+
+let students=[];
+
+function addStudent(){
+
+let name=document.getElementById("studentName").value;
+let marks=Number(document.getElementById("studentMarks").value);
+
+if(name=="" || document.getElementById("studentMarks").value==""){
+alert("Please Fill All Details");
+return;
+}
+
+let grade="";
+let result="";
+
+if(marks>=90){
+grade="A";
+result="Pass";
+}
+else if(marks>=75){
+grade="B";
+result="Pass";
+}
+else if(marks>=50){
+grade="C";
+result="Pass";
+}
+else{
+grade="Fail";
+result="Fail";
+}
+
+let student={
+name:name,
+marks:marks,
+grade:grade,
+result:result
+};
+
+students.push(student);
+
+showStudents();
+
+document.getElementById("studentName").value="";
+document.getElementById("studentMarks").value="";
+}
+
+function showStudents(){
+
+let text="";
+
+for(let i=0;i<students.length;i++){
+
+text=text+"<tr>";
+text=text+"<td>"+students[i].name+"</td>";
+text=text+"<td>"+students[i].marks+"</td>";
+text=text+"<td>"+students[i].grade+"</td>";
+
+if(students[i].result=="Pass"){
+text=text+"<td style='color:green;'>"+students[i].result+"</td>";
+}
+else{
+text=text+"<td style='color:red;'>"+students[i].result+"</td>";
+}
+
+text=text+"</tr>";
+
+}
+
+document.getElementById("tableData").innerHTML=text;
+document.getElementById("count").innerHTML="Total Students : "+students.length;
+
+}
+
+function searchStudent(){
+
+let search=document.getElementById("searchName").value;
+let found=false;
+
+for(let i=0;i<students.length;i++){
+
+if(students[i].name.toLowerCase()==search.toLowerCase()){
+
+document.getElementById("message").innerHTML=
+"Student Found : "+students[i].name+
+" | Marks : "+students[i].marks+
+" | Grade : "+students[i].grade+
+" | Result : "+students[i].result;
+
+found=true;
+
+}
+
+}
+
+if(found==false){
+document.getElementById("message").innerHTML="Student Not Found";
+}
+
+}
+
+</script>
+
+</body>
+</html>
